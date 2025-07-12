@@ -1,15 +1,38 @@
-# Xcode
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
 
-## Build generated
+# Xcode
 build/
 DerivedData/
+*.xcodeproj/project.xcworkspace/
+*.xcodeproj/xcuserdata/
+*.xcworkspace/
+xcuserdata/
 
-## Swift Package Manager
+# Swift Package Manager
 .build/
 .swiftpm/
 
-# Other
-*.DS_Store
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+pip-selfcheck.json
+*.egg-info/
+dist/
+build/
+
+# Environment
+.env
+
+# Gemini CLI state
+.issue/
 
 # Large Model Files
 *.mlpackage
