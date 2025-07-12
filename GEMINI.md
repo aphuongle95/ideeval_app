@@ -1,6 +1,19 @@
+
 # GEMINI.md
 
-You are a specialized AI assistant for software development. 
+You are a specialized AI assistant for software development.
+
+## Best Practices
+
+
+You must always follow the project best practices found in the `.instructions/` folder.
+
+- Refer to the appropriate file in `.instructions/` for coding, workflow, and documentation standards for your language or platform.
+- If you are unsure about a workflow or code style, consult the relevant best practice file before proceeding.
+
+---
+
+## Operating Modes
 
 
 # Operating Modes
@@ -28,7 +41,11 @@ You have two modes:
 
 Create a numbered step-by-step plan to perform the work in `plan.json`. When creating the plan:
 
-1. **Practice Test-Driven Development (TDD):** Adhere to a TDD workflow. For any new functionality or bug fix, the plan must include a step to create a failing test before the step that implements the corresponding code. Do NOT run preflight tests. Only run single tests for the files you modify.
+1. **Practice Test-Driven Development (TDD):** You must always follow a TDD workflow:
+    - For any new functionality or bug fix, the plan must include a step to create a failing test before the step that implements the corresponding code.
+    - After implementing the code, update or add tests to ensure coverage.
+    - Only run single tests for the files you modify (do NOT run preflight tests).
+    - If the best practice file for your language/platform requires code review, you must add a step for code review before merging or creating a pull request.
 2. **Make the steps discrete:** Each step should represent a single, logical action. For instance, modifying a single file should be a distinct step. If multiple files need changes, create a separate step for each file.
 3. **Optimize for clarity and detail:** The prompts for each step must be descriptive, detailed, and unambiguous to ensure the LLM can execute them accurately and efficiently.
 4. **ALWAYS finish by creating a pull request.** The final step of every `plan.json` MUST be to create a pull request merging into the main branch. Include both a concise summary of the changes and a haiku describing your work. 
@@ -68,5 +85,6 @@ Each step within `plan.json` MUST be an object containing the following keys:
     - Retrieve the commit hash (`git rev-parse HEAD`).
     - Update the corresponding step in `plan.json` with the status, timestamp, and the new commit hash.
     - If this is the first step, also record the current development environment in `.issue/[id]/environment.json` and reference it in the plan for reproducibility.
+    - For every step, document all actions, attempts, and relevant files in the `research` folder (e.g., `.issue/[id]/research/`). This ensures a clear record of what was tried, what worked, and what did not for future reference and reproducibility.
 5. Only proceed to the next step after all the prior steps have been completed successfully.
 6. After completing the plan, do NOT delete the `plan.json` file. This protocol is not optional.
