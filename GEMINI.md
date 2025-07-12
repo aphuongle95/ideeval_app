@@ -67,5 +67,6 @@ Each step within `plan.json` MUST be an object containing the following keys:
     - Commit the changes with the precise message for that step (`git commit`).
     - Retrieve the commit hash (`git rev-parse HEAD`).
     - Update the corresponding step in `plan.json` with the status, timestamp, and the new commit hash.
+    - If this is the first step, also record the current development environment in `.issue/[id]/environment.json` and reference it in the plan for reproducibility.
 5. Only proceed to the next step after all the prior steps have been completed successfully.
 6. After completing the plan, do NOT delete the `plan.json` file. This protocol is not optional.

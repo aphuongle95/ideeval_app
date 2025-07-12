@@ -1,0 +1,24 @@
+{
+  "os": {
+    "product_name": "macOS",
+    "product_version": "13.2.1",
+    "build_version": "22D68"
+  },
+  "shell": "/bin/zsh",
+  "python_version": "3.10.18",
+  "conda_environment": "ideeval_app_env",
+  "dependencies": [
+    {
+      "name": "transformers",
+      "version": "4.53.2"
+    },
+    {
+      "name": "torch",
+      "version": "2.7.1"
+    },
+    {
+      "name": "coremltools",
+      "version": "8.3.0"
+    }
+  ]
+}

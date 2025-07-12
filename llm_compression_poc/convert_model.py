@@ -2,16 +2,21 @@
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 import coremltools as ct
+from dotenv import load_dotenv
+import os
 
 def main():
     """
     Downloads a model from Hugging Face, converts it to Core ML, and applies quantization.
     """
-    model_name = "TinyLlama/TinyLlama-1.1B-Chat-v1.0"
+    load_dotenv()
+    hf_token = os.getenv("HUGGING_FACE_HUB_TOKEN")
+    
+    model_name = "meta-llama/Meta-Llama-3-8B-Instruct"
     
     # Download model and tokenizer
-    tokenizer = AutoTokenizer.from_pretrained(model_name)
-    model = AutoModelForCausalLM.from_pretrained(model_name)
+    tokenizer = AutoTokenizer.from_pretrained(model_name, token=hf_token)
+    model = AutoModelForCausalLM.from_pretrained(model_name, token=hf_token)
     
     # Create dummy input
     dummy_input = tokenizer("Hello, my name is", return_tensors="pt")
@@ -38,7 +43,7 @@ def main():
     quantized_model = ct.optimize.coreml.palettize_weights(mlmodel, config=config)
     
     # Save the model
-    quantized_model.save("TinyLlama.mlpackage")
+    quantized_model.save("Llama3.mlpackage")
 
 if __name__ == "__main__":
     main()
