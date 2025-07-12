@@ -1,0 +1,15 @@
+# Xcode
+
+## Build generated
+build/
+DerivedData/
+
+## Swift Package Manager
+.build/
+.swiftpm/
+
+# Other
+*.DS_Store
+
+# Large Model Files
+*.mlpackage
