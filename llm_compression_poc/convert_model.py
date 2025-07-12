@@ -1,51 +1,44 @@
+
 import torch
-import coremltools as ct
 from transformers import AutoModelForCausalLM, AutoTokenizer
+import coremltools as ct
 
 def main():
-    """Downloads a model, converts it to Core ML, and saves it."""
-    
+    """
+    Downloads a model from Hugging Face, converts it to Core ML, and applies quantization.
+    """
     model_name = "TinyLlama/TinyLlama-1.1B-Chat-v1.0"
     
-    print(f"Starting download of {model_name}...")
-    model = AutoModelForCausalLM.from_pretrained(model_name)
+    # Download model and tokenizer
     tokenizer = AutoTokenizer.from_pretrained(model_name)
-    print("Model and tokenizer downloaded successfully.")
-
-    # --- Prepare for Conversion ---
-    # 1. Set model to evaluation mode
-    model.eval()
+    model = AutoModelForCausalLM.from_pretrained(model_name)
     
-    # 2. Create example input
-    # The tokenizer returns a dictionary, and we need the `input_ids` tensor.
-    example_input = tokenizer("hello world", return_tensors="pt")
+    # Create dummy input
+    dummy_input = tokenizer("Hello, my name is", return_tensors="pt")
     
-    # 3. Trace the model with the example input to get a ScriptModule
-    print("Tracing model...")
-    traced_model = torch.jit.trace(model, (example_input['input_ids'],))
-    print("Model traced successfully.")
-
-    # --- Set up Quantization ---
-    # Use 4-bit palletization for significant compression
-    quantization_config = ct.optimize.coreml.OpPalettizerConfig(
-        mode="kmeans", nbits=4
-    )
+    # Trace the model
+    traced_model = torch.jit.trace(model, (dummy_input['input_ids'], dummy_input['attention_mask']))
     
-    # --- Convert to Core ML ---
-    print("Starting Core ML conversion with quantization...")
+    # Convert to Core ML
     mlmodel = ct.convert(
         traced_model,
         convert_to="mlprogram",
-        inputs=[ct.TensorType(shape=example_input['input_ids'].shape)],
-        compute_units=ct.ComputeUnit.CPU_AND_NE, # Target CPU and Neural Engine
-        optimization_config=ct.optimize.coreml.OptimizationConfig(global_config=quantization_config)
+        inputs=[
+            ct.TensorType(name="input_ids", shape=(1, ct.Range(1, 2048)), dtype=torch.int32),
+            ct.TensorType(name="attention_mask", shape=(1, ct.Range(1, 2048)), dtype=torch.int32),
+        ],
+        compute_units=ct.ComputeUnit.CPU_AND_GPU,
     )
-    print("Model converted to Core ML successfully.")
-
-    # --- Save the Model ---
-    output_path = "TinyLlama-1.1B-Chat-v1.0-4bit.mlpackage"
-    mlmodel.save(output_path)
-    print(f"Model saved to {output_path}")
+    
+    # Quantize the model
+    op_config = ct.optimize.coreml.OpPalettizerConfig(
+        mode="uniform", nbits=4, weight_threshold=512
+    )
+    config = ct.optimize.coreml.OptimizationConfig(global_config=op_config)
+    quantized_model = ct.optimize.coreml.palettize_weights(mlmodel, config=config)
+    
+    # Save the model
+    quantized_model.save("TinyLlama.mlpackage")
 
 if __name__ == "__main__":
     main()
