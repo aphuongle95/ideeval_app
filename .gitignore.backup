@@ -1,0 +1,112 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+._*
+
+# Xcode
+build/
+DerivedData/
+*.xcodeproj/*
+!*.xcodeproj/project.pbxproj
+!*.xcodeproj/xcshareddata/
+!*.xcworkspace/contents.xcworkspacedata
+*.xcworkspace/
+xcuserdata/
+*.moved-aside
+*.xccheckout
+*.xcscmblueprint
+*.xcuserstate
+timeline.xctimeline
+playground.xcworkspace
+
+# Swift Package Manager
+.build/
+.swiftpm/
+.netrc
+Package.resolved
+
+# CocoaPods
+Pods/
+*.xcworkspace
+Podfile.lock
+
+# Carthage
+Carthage/Build/
+Carthage/Checkouts
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+pip-selfcheck.json
+*.egg-info/
+dist/
+build/
+
+# Environment & Credentials
+.env
+*.pem
+*.key
+*.p12
+*.mobileprovision
+*.cer
+*.keychain
+credentials.json
+*credentials*
+*secret*
+*api_key*
+*password*
+*token*
+GoogleService-Info.plist
+firebase_credentials.json
+
+# Gemini CLI state
+.issue/
+
+# Large Model Files
+*.mlpackage
+*.gguf
+*.bin
+*.onnx
+*.pt
+*.pth
+*.h5
+*.hdf5
+*.pkl
+*.model
+*.weights
+llm_compression_poc/mobile/ios_poc_app/Llama-3.2-1B-Instruct-Q4_K_M.gguf
+*.mlmodel
+*.tflite
+
+# Llama framework binaries
+*.framework/llama
+llama.xcframework/
+
+# fastlane
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots/**/*.png
+fastlane/test_output
+
+# Code Injection
+iOSInjectionProject/
+
+# Logs
+*.log
+log/
+logs/
+
+# Generated files
+*.generated.swift
+
+# App specific
+.gitattributes
