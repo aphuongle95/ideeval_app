@@ -1,0 +1,6 @@
+transformers
+torch
+coremltools
+accelerate
+exporters
+python-dotenv
